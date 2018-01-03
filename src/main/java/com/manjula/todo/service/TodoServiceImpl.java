@@ -24,7 +24,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoDto findById(Long id) {
         Todo found = todoRepository.findOne(id);
-        return found.view();
+        return (found == null) ? null : found.view();
     }
 
     @Override

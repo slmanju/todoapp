@@ -4,14 +4,15 @@ import com.manjula.todo.dto.TodoDto;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Table(name = "todos")
 @Entity
 public class Todo {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String summary;
