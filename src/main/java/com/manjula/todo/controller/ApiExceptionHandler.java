@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(value = { MethodArgumentTypeMismatchException.class })
+    public ErrorResponse handleTypeMismatch(MethodArgumentTypeMismatchException exception) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(value = { MethodArgumentNotValidException.class })
     public ErrorResponse handleBadRequest(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
         List<String> errors = bindingResult.getAllErrors()

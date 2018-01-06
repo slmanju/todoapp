@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody TodoDto todoDto) {
+    public ResponseEntity<?> create(@Valid @RequestBody TodoDto todoDto) {
         Long id = todoService.save(todoDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(id).toUri();
@@ -42,7 +43,7 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody TodoDto todoDto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody TodoDto todoDto) {
         todoService.update(id, todoDto);
         return ResponseEntity.ok().build();
     }
