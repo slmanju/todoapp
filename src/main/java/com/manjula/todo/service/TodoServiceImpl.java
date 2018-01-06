@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +25,9 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public TodoDto findById(Long id) {
-        Todo found = todoRepository.findOne(id);
-        if (found == null) {
-            throw new ResourceNotFoundException(id, "Todo not found");
-        }
-        return found.view();
+        Optional<Todo> found = todoRepository.findById(id);
+        return found.map(Todo::view)
+                .orElseThrow(() -> new ResourceNotFoundException(id, "Todo not found"));
     }
 
     @Override
@@ -42,20 +41,19 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void delete(Long id) {
-        Todo found = todoRepository.findOne(id);
-        if (found == null) {
+        Optional<Todo> found = todoRepository.findById(id);
+        if (found.isPresent()) {
+            todoRepository.delete(id);
+        } else {
             throw new ResourceNotFoundException(id, "Todo not found");
         }
-        todoRepository.delete(id);
     }
 
     @Override
     public List<TodoDto> findAll() {
-        List<Todo> todos = todoRepository.findAll();
-        if (todos.isEmpty()) {
-            throw new ResourceNotFoundException(null, "Todos not found");
-        }
-        return todos.stream().map(Todo::view).collect(Collectors.toList());
+        Optional<List<Todo>> todos = todoRepository.findAllTodos();
+        return todos.map(all -> all.stream().map(Todo::view).collect(Collectors.toList()))
+                .orElseThrow(() -> new ResourceNotFoundException(null, "Todos not found"));
     }
 
 }
