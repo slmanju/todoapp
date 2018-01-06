@@ -10,7 +10,7 @@ public interface TodoService {
 
     TodoDto findById(Long id);
 
-    void update(TodoDto todoDto);
+    void update(Long id, TodoDto todoDto);
 
     void delete(Long id);
 
