@@ -30,9 +30,6 @@ public class TodoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         TodoDto dto = todoService.findById(id);
-        if (dto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.ok(dto);
     }
 
@@ -46,12 +43,7 @@ public class TodoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody TodoDto todoDto) {
-        TodoDto dto = todoService.findById(id);
-        if (dto == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        todoDto.setId(id);
-        todoService.update(todoDto);
+        todoService.update(id, todoDto);
         return ResponseEntity.ok().build();
     }
 
