@@ -5,6 +5,8 @@ import com.manjula.todo.exception.ResourceNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,6 +53,11 @@ public class ApiExceptionHandler {
     @ExceptionHandler(value = { HttpRequestMethodNotSupportedException.class })
     public ErrorResponse handleMethodNotSupported(Exception exception) {
         return new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(value = { BadCredentialsException.class, AuthenticationException.class})
+    public ErrorResponse handleUnauthorized(BadCredentialsException exception) {
+        return new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), exception.getMessage());
     }
 
     @ExceptionHandler(value = { Exception.class })
