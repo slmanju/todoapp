@@ -1,5 +1,7 @@
 package com.manjula.todo.controller;
 
+import com.manjula.todo.config.security.JwtUtils;
+import com.manjula.todo.dto.JwtDto;
 import com.manjula.todo.dto.LoginDto;
 import com.manjula.todo.dto.TokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,10 @@ public class LoginController {
         );
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return ResponseEntity.ok(TokenDto.builder().token("winteriscoming").build());
+
+        // hardcoded, should use a proper user service
+        String token = JwtUtils.generateToken(JwtDto.builder().username("manjula").userId(1L).role("ADMIN").build());
+        return ResponseEntity.ok(TokenDto.builder().token(token).build());
     }
 
 }
