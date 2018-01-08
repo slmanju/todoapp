@@ -3,7 +3,6 @@ package com.manjula.todo.controller;
 import com.manjula.todo.dto.TodoDto;
 import com.manjula.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,9 +21,6 @@ public class TodoController {
     @GetMapping
     public ResponseEntity<?> getAll() {
         List<TodoDto> todos = todoService.findAll();
-        if (todos == null || todos.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
         return ResponseEntity.ok(todos);
     }
 
