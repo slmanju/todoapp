@@ -26,7 +26,9 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
-    compile('javax.validation:validation-api:2.0.1.Final')
+	compile('org.springframework.boot:spring-boot-starter-aop')
+
+	compile('javax.validation:validation-api:2.0.1.Final')
     compile('org.hibernate:hibernate-validator:6.0.7.Final')
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('io.jsonwebtoken:jjwt:0.9.0')
